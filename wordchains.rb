@@ -16,7 +16,7 @@ class WordChain
 			add_to_map(word.chomp) if word.chomp.length == word_length
 		end
 
-		prune_deadend_words!
+		# prune_deadend_words!
 	end
 
 	def trace(start_word, end_word, parent_roster)
@@ -27,7 +27,6 @@ class WordChain
 			output << parent
 			child = parent
 		end
-		# output << start_word
 		p output.reverse
 	end
 
@@ -37,7 +36,6 @@ class WordChain
 			curr_level = Set.new << start_word,
 			parent_roster = Hash.new { |hash, key| hash[key] = Set.new }
 		)
-		# debugger
 
 		next_level = Set.new
 
@@ -84,7 +82,15 @@ class WordChain
 end
 
 if $0 == __FILE__
-	a= WordChain.new(4)
-	
-	a.build_path("duck","ruby")
+	unless ARGV.length == 2
+		puts "Enter in a start word and an end word separated by spaces"
+	else
+		start_word, end_word = ARGV[0].strip.to_s, ARGV[1].strip.to_s
+		unless start_word.length == end_word.length
+			puts "Start word and end word must be the same length"
+		end
+
+		obj = WordChain.new(start_word.length)
+		obj.build_path(start_word, end_word)
+	end
 end
