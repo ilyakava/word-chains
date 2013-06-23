@@ -19,8 +19,16 @@ class WordChain
 		# prune_deadend_words!
 	end
 
-	def trace(parent_to_children)
-		puts parent_to_children
+	def trace(start_word, end_word, parent_roster)
+		output = [end_word]
+		child = end_word
+		until child == start_word
+			parent = parent_roster.select { |key, value| value.include?(child) }.keys[0].to_s
+			output << parent
+			child = parent
+		end
+		# output << start_word
+		p output.reverse
 	end
 
 	def build_path(
@@ -44,8 +52,7 @@ class WordChain
 				parent_roster[parrent_word.to_sym].merge(children_array)
 
 				if children_array.include?(end_word)
-					#trace
-					return trace(parent_roster)
+					return trace(start_word, end_word, parent_roster)
 				end
 				
 				next_level.merge(children_array)
@@ -79,5 +86,5 @@ end
 if $0 == __FILE__
 	a= WordChain.new(4)
 	
-	a.build_path("ably","abbe")
+	a.build_path("duck","ruby")
 end
