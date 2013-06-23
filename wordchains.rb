@@ -16,7 +16,7 @@ class WordChain
 			add_to_map(word.chomp) if word.chomp.length == word_length
 		end
 
-		# prune_deadend_words!
+		prune_deadend_words!
 	end
 
 	def trace(start_word, end_word, parent_roster)
